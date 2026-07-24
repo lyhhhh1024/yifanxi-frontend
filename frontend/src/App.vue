@@ -3,11 +3,12 @@ import { computed, nextTick, onMounted, ref } from "vue";
 import { fallbackHomeData } from "./data/fallback";
 import type { HomeData, ProductSeries } from "./types";
 
-type PageKey = "home" | "products" | "about" | "contact";
+type PageKey = "home" | "products" | "about" | "contact" | "serviceDetail";
 
 const homeData = ref<HomeData>(fallbackHomeData);
 const activePage = ref<PageKey>("home");
 const selectedSeriesKey = ref<string | null>(null);
+const selectedServiceTitle = ref<string | null>(null);
 const selectedSeriesSection = ref<HTMLElement | null>(null);
 const isMenuOpen = ref(false);
 const apiBaseUrl = import.meta.env.VITE_API_BASE_URL?.replace(/\/$/, "") ?? "";
@@ -36,10 +37,69 @@ const selectedSeries = computed<ProductSeries | null>(() => {
   );
 });
 
+const selectedService = computed(() => {
+  if (!selectedServiceTitle.value) {
+    return null;
+  }
+
+  return (
+    homeData.value.services.find(
+      (service) => service.title === selectedServiceTitle.value,
+    ) ?? null
+  );
+});
+
+const serviceDetailCopy: Record<string, { lead: string; points: string[] }> = {
+  Factory: {
+    lead:
+      "In-house production supports custom upholstery, frame preparation, material matching, and export packaging for project orders.",
+    points: [
+      "Material cutting, frame assembly, sewing, upholstery, inspection, and packaging handled by the factory team.",
+      "Suitable for sofas, upholstered beds, lounge chairs, stone furniture matching, and whole-home project supply.",
+      "Factory scenes help overseas buyers understand production capability before quotation.",
+    ],
+  },
+  Design: {
+    lead:
+      "Design support helps clients translate villa, office, and hotel requirements into coordinated furnishing selections.",
+    points: [
+      "Light luxury and minimalist directions can be matched by space, material, finish, and budget level.",
+      "Remote communication supports mood references, layout discussion, product selection, and customization notes.",
+      "The goal is to make product choices feel coherent before production begins.",
+    ],
+  },
+  Sales: {
+    lead:
+      "Sales consultation focuses on clear communication before quotation, including style, size, material, logistics, and project needs.",
+    points: [
+      "WhatsApp is the primary contact path for overseas buyers and project partners.",
+      "Inquiry conversations can cover product categories, customization options, quantity, and delivery expectations.",
+      "Pricing is not shown publicly because most orders require project-specific confirmation.",
+    ],
+  },
+  "After-sales": {
+    lead:
+      "After-sales support covers follow-up communication, delivery coordination, installation guidance, and product issue handling.",
+    points: [
+      "Export orders can be supported with packing checks and delivery coordination before shipment.",
+      "For custom furniture, after-sales communication helps clarify installation and usage details.",
+      "The service path is designed to keep buyers connected after quotation and delivery.",
+    ],
+  },
+};
+
 function setPage(page: PageKey) {
   activePage.value = page;
   isMenuOpen.value = false;
+  if (page !== "serviceDetail") {
+    selectedServiceTitle.value = null;
+  }
   window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+function openService(title: string) {
+  selectedServiceTitle.value = title;
+  setPage("serviceDetail");
 }
 
 onMounted(async () => {
@@ -169,13 +229,18 @@ function closeMenu() {
         </p>
       </div>
       <div class="service-flow">
-        <article v-for="service in homeData.services" :key="service.title">
+        <button
+          v-for="service in homeData.services"
+          :key="service.title"
+          type="button"
+          @click="openService(service.title)"
+        >
           <img :src="service.image" :alt="`${service.title} service scene`" />
           <div>
             <span>YIFANXI</span>
             <strong>{{ service.title }}</strong>
           </div>
-        </article>
+        </button>
       </div>
     </section>
 
@@ -265,12 +330,42 @@ function closeMenu() {
         </p>
       </div>
       <div class="service-flow">
-        <article v-for="service in homeData.services" :key="service.title">
+        <button
+          v-for="service in homeData.services"
+          :key="service.title"
+          type="button"
+          @click="openService(service.title)"
+        >
           <img :src="service.image" :alt="`${service.title} service scene`" />
           <div>
             <span>YIFANXI</span>
             <strong>{{ service.title }}</strong>
           </div>
+        </button>
+      </div>
+    </section>
+
+    <section v-if="activePage === 'serviceDetail' && selectedService" class="service-detail-section page-view">
+      <button class="back-button" type="button" @click="setPage('home')">Back to Home</button>
+      <div class="service-detail-hero">
+        <img :src="selectedService.image" :alt="`${selectedService.title} service detail`" />
+        <div>
+          <p class="eyebrow">YIFANXI service</p>
+          <h1>{{ selectedService.title }}</h1>
+          <p class="hero-copy">{{ serviceDetailCopy[selectedService.title]?.lead }}</p>
+          <button class="text-link link-button" type="button" @click="setPage('contact')">
+            Contact on WhatsApp
+          </button>
+        </div>
+      </div>
+
+      <div class="service-detail-grid">
+        <article
+          v-for="point in serviceDetailCopy[selectedService.title]?.points"
+          :key="point"
+        >
+          <span>{{ selectedService.title }}</span>
+          <p>{{ point }}</p>
         </article>
       </div>
     </section>
