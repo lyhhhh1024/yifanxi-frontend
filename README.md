@@ -27,11 +27,11 @@ from the repository root:
 npm run build
 ```
 
-This installs missing frontend dependencies and builds the Vue app under
-`frontend/`, then outputs:
+This installs missing frontend dependencies, builds the Vue app under
+`frontend/`, and copies the production files to:
 
 ```text
-frontend/dist
+dist
 ```
 
 ## Frontend

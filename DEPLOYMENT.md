@@ -39,7 +39,7 @@ Recommended settings:
 Framework preset: None or Vue / Vite
 Root directory: leave empty
 Build command: npm run build
-Build output directory: frontend/dist
+Build output directory: dist
 Node.js version: 20 or 22
 ```
 
@@ -57,6 +57,9 @@ Root directory: frontend
 Build command: npm run build
 Build output directory: dist
 ```
+
+The root build command copies `frontend/dist` to root `dist` after a successful
+Vue build, so Cloudflare Pages can use the simpler root output directory.
 
 ## Frontend with backend API
 
