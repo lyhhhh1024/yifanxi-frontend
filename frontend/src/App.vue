@@ -3,11 +3,27 @@ import { computed, nextTick, onMounted, ref } from "vue";
 import { fallbackHomeData } from "./data/fallback";
 import type { HomeData, ProductSeries } from "./types";
 
+type PageKey = "home" | "products" | "about" | "contact";
+
 const homeData = ref<HomeData>(fallbackHomeData);
+const activePage = ref<PageKey>("home");
 const selectedSeriesKey = ref<string | null>(null);
 const selectedSeriesSection = ref<HTMLElement | null>(null);
 const isMenuOpen = ref(false);
 const apiBaseUrl = import.meta.env.VITE_API_BASE_URL?.replace(/\/$/, "") ?? "";
+
+const primaryPages: { key: PageKey; label: string }[] = [
+  { key: "products", label: "Products" },
+  { key: "contact", label: "Contact Us" },
+  { key: "about", label: "About Us" },
+];
+
+const drawerPages: { key: PageKey; label: string; summary: string }[] = [
+  { key: "home", label: "Home", summary: "Brand entrance and whole-home positioning" },
+  { key: "products", label: "Product Showcase", summary: "Light luxury and minimal product series" },
+  { key: "about", label: "About Us", summary: "Origin, factory, service, and qualifications" },
+  { key: "contact", label: "Contact Us", summary: "WhatsApp, Instagram, and email inquiry" },
+];
 
 const selectedSeries = computed<ProductSeries | null>(() => {
   if (!selectedSeriesKey.value) {
@@ -19,6 +35,12 @@ const selectedSeries = computed<ProductSeries | null>(() => {
     ) ?? null
   );
 });
+
+function setPage(page: PageKey) {
+  activePage.value = page;
+  isMenuOpen.value = false;
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
 
 onMounted(async () => {
   const shouldLoadBackendData = import.meta.env.DEV || apiBaseUrl.length > 0;
@@ -41,6 +63,7 @@ onMounted(async () => {
 
 async function selectSeries(key: string) {
   selectedSeriesKey.value = key;
+  activePage.value = "products";
   isMenuOpen.value = false;
   await nextTick();
   selectedSeriesSection.value?.scrollIntoView({
@@ -57,54 +80,106 @@ function closeMenu() {
 <template>
   <main>
     <header class="site-header">
-      <a class="brand" href="#top" aria-label="YIFANXI Home">
+      <div class="header-left">
+        <button
+          class="menu-toggle"
+          type="button"
+          :aria-expanded="isMenuOpen"
+          aria-controls="site-menu"
+          aria-label="Toggle navigation menu"
+          @click="isMenuOpen = !isMenuOpen"
+        >
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+
+        <nav class="top-pages" aria-label="Main pages">
+          <button
+            v-for="page in primaryPages"
+            :key="page.key"
+            type="button"
+            :class="{ active: activePage === page.key }"
+            @click="setPage(page.key)"
+          >
+            {{ page.label }}
+          </button>
+        </nav>
+      </div>
+
+      <a class="brand" href="#top" aria-label="YIFANXI Home" @click.prevent="setPage('home')">
         <img class="brand-logo" :src="homeData.brand.logo" alt="YIFANXI logo" />
         <span class="brand-copy">
           <strong>{{ homeData.brand.name }}</strong>
           <small>{{ homeData.brand.company }}</small>
         </span>
       </a>
-      <button
-        class="menu-toggle"
-        type="button"
-        :aria-expanded="isMenuOpen"
-        aria-controls="site-menu"
-        aria-label="Toggle navigation menu"
-        @click="isMenuOpen = !isMenuOpen"
-      >
-        <span></span>
-        <span></span>
-        <span></span>
-      </button>
-
-      <nav
-        id="site-menu"
-        class="site-menu"
-        :class="{ open: isMenuOpen }"
-        aria-label="Primary navigation"
-      >
-        <a href="#top" @click="closeMenu">Home</a>
-        <a href="#origin" @click="closeMenu">About</a>
-        <a href="#collections" @click="closeMenu">Products</a>
-        <a href="#factory" @click="closeMenu">Factory</a>
-        <a href="#service" @click="closeMenu">Service</a>
-        <a href="#qualifications" @click="closeMenu">Qualifications</a>
-        <a href="#contact" @click="closeMenu">Contact</a>
-      </nav>
-      <a class="header-action" href="#contact">WhatsApp</a>
     </header>
 
-    <section class="hero" id="top">
+    <div class="drawer-backdrop" :class="{ open: isMenuOpen }" @click="closeMenu"></div>
+    <aside id="site-menu" class="side-menu" :class="{ open: isMenuOpen }" aria-label="Expanded navigation">
+      <div class="side-menu-head">
+        <span>Menu</span>
+        <button type="button" aria-label="Close navigation menu" @click="closeMenu">Close</button>
+      </div>
+
+      <div class="side-menu-pages">
+        <button
+          v-for="page in drawerPages"
+          :key="page.key"
+          type="button"
+          :class="{ active: activePage === page.key }"
+          @click="setPage(page.key)"
+        >
+          <strong>{{ page.label }}</strong>
+          <small>{{ page.summary }}</small>
+        </button>
+      </div>
+
+      <div class="side-menu-series">
+        <span>Product series</span>
+        <button
+          v-for="series in homeData.productShowcase.series"
+          :key="series.key"
+          type="button"
+          @click="selectSeries(series.key)"
+        >
+          {{ series.name }}
+        </button>
+      </div>
+    </aside>
+
+    <section v-if="activePage === 'home'" class="hero page-view" id="top">
       <img :src="homeData.hero.image" :alt="homeData.hero.title" />
       <div class="hero-content">
         <p class="eyebrow">{{ homeData.hero.eyebrow }}</p>
         <h1>{{ homeData.hero.title }}</h1>
         <p class="hero-copy">{{ homeData.hero.copy }}</p>
-        <a class="text-link" href="#contact">Scan WhatsApp QR</a>
+        <button class="text-link link-button" type="button" @click="setPage('contact')">Scan WhatsApp QR</button>
       </div>
     </section>
 
-    <section class="origin-section" id="origin">
+    <section v-if="activePage === 'home'" class="statement-section">
+      <div>
+        <p class="eyebrow">One-stop service</p>
+        <h2>Factory, design, sales, and after-sales.</h2>
+        <p class="service-copy">
+          Integrated support from production and project matching to quotation,
+          delivery coordination, and follow-up service.
+        </p>
+      </div>
+      <div class="service-flow">
+        <article v-for="service in homeData.services" :key="service.title">
+          <img :src="service.image" :alt="`${service.title} service scene`" />
+          <div>
+            <span>YIFANXI</span>
+            <strong>{{ service.title }}</strong>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section v-if="activePage === 'about'" class="origin-section page-view">
       <div class="section-title">
         <span>Origin</span>
         <h2>{{ homeData.brand.originTitle }}</h2>
@@ -114,7 +189,7 @@ function closeMenu() {
       </div>
     </section>
 
-    <section class="catalog-section" id="collections">
+    <section v-if="activePage === 'products'" class="catalog-section page-view">
       <div class="section-title">
         <span>01</span>
         <h2>Product Showcase</h2>
@@ -180,7 +255,7 @@ function closeMenu() {
       </div>
     </section>
 
-    <section class="statement-section" id="service">
+    <section v-if="activePage === 'about'" class="statement-section">
       <div>
         <p class="eyebrow">One-stop service</p>
         <h2>Factory, design, sales, and after-sales.</h2>
@@ -200,7 +275,7 @@ function closeMenu() {
       </div>
     </section>
 
-    <section class="factory-section" id="factory">
+    <section v-if="activePage === 'about'" class="factory-section">
       <div class="section-title">
         <span>02</span>
         <h2>Factory Capability</h2>
@@ -226,7 +301,7 @@ function closeMenu() {
       </div>
     </section>
 
-    <section class="qualification-section" id="qualifications">
+    <section v-if="activePage === 'about'" class="qualification-section">
       <div class="section-title">
         <span>03</span>
         <h2>Qualifications</h2>
@@ -257,7 +332,7 @@ function closeMenu() {
       </div>
     </section>
 
-    <section class="contact-section" id="contact">
+    <section v-if="activePage === 'contact'" class="contact-section page-view">
       <div class="section-title">
         <span>04</span>
         <h2>WhatsApp Inquiry</h2>
@@ -285,7 +360,7 @@ function closeMenu() {
       <strong>{{ homeData.brand.name }} - {{ homeData.brand.company }}</strong>
       <div class="footer-links">
         <a :href="`mailto:${homeData.contact.email}`">{{ homeData.contact.email }}</a>
-        <a href="#contact">WhatsApp Inquiry</a>
+        <button type="button" @click="setPage('contact')">WhatsApp Inquiry</button>
       </div>
     </footer>
   </main>
