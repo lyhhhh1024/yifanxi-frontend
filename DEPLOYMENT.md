@@ -28,6 +28,35 @@ Use this path first.
 
 No production environment variable is required for the first static version.
 
+## Cloudflare Pages settings
+
+Because the repository is now a frontend/backend monorepo, Cloudflare Pages
+should build the Vue app from the `frontend` folder.
+
+Recommended settings:
+
+```text
+Framework preset: Vue / Vite
+Root directory: frontend
+Build command: npm run build
+Build output directory: dist
+Node.js version: 20 or 22
+```
+
+If Cloudflare does not read the Node version automatically, add an environment
+variable in Pages:
+
+```text
+NODE_VERSION=22
+```
+
+If the root directory is left empty, use:
+
+```text
+Build command: cd frontend && npm ci && npm run build
+Build output directory: frontend/dist
+```
+
 ## Frontend with backend API
 
 Use this later if the Spring Boot backend is deployed.
