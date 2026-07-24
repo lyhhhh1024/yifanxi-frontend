@@ -6,6 +6,7 @@ import type { HomeData, ProductSeries } from "./types";
 const homeData = ref<HomeData>(fallbackHomeData);
 const selectedSeriesKey = ref<string | null>(null);
 const selectedSeriesSection = ref<HTMLElement | null>(null);
+const isMenuOpen = ref(false);
 const apiBaseUrl = import.meta.env.VITE_API_BASE_URL?.replace(/\/$/, "") ?? "";
 
 const selectedSeries = computed<ProductSeries | null>(() => {
@@ -40,11 +41,16 @@ onMounted(async () => {
 
 async function selectSeries(key: string) {
   selectedSeriesKey.value = key;
+  isMenuOpen.value = false;
   await nextTick();
   selectedSeriesSection.value?.scrollIntoView({
     behavior: "smooth",
     block: "start",
   });
+}
+
+function closeMenu() {
+  isMenuOpen.value = false;
 }
 </script>
 
@@ -58,11 +64,32 @@ async function selectSeries(key: string) {
           <small>{{ homeData.brand.company }}</small>
         </span>
       </a>
-      <nav aria-label="Primary navigation">
-        <a href="#collections">Products</a>
-        <a href="#service">Service</a>
-        <a href="#qualifications">Qualifications</a>
-        <a href="#contact">Contact</a>
+      <button
+        class="menu-toggle"
+        type="button"
+        :aria-expanded="isMenuOpen"
+        aria-controls="site-menu"
+        aria-label="Toggle navigation menu"
+        @click="isMenuOpen = !isMenuOpen"
+      >
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+
+      <nav
+        id="site-menu"
+        class="site-menu"
+        :class="{ open: isMenuOpen }"
+        aria-label="Primary navigation"
+      >
+        <a href="#top" @click="closeMenu">Home</a>
+        <a href="#origin" @click="closeMenu">About</a>
+        <a href="#collections" @click="closeMenu">Products</a>
+        <a href="#factory" @click="closeMenu">Factory</a>
+        <a href="#service" @click="closeMenu">Service</a>
+        <a href="#qualifications" @click="closeMenu">Qualifications</a>
+        <a href="#contact" @click="closeMenu">Contact</a>
       </nav>
       <a class="header-action" href="#contact">WhatsApp</a>
     </header>
@@ -77,7 +104,7 @@ async function selectSeries(key: string) {
       </div>
     </section>
 
-    <section class="origin-section">
+    <section class="origin-section" id="origin">
       <div class="section-title">
         <span>Origin</span>
         <h2>{{ homeData.brand.originTitle }}</h2>
@@ -173,7 +200,7 @@ async function selectSeries(key: string) {
       </div>
     </section>
 
-    <section class="factory-section">
+    <section class="factory-section" id="factory">
       <div class="section-title">
         <span>02</span>
         <h2>Factory Capability</h2>
