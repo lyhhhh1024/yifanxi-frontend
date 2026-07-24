@@ -36,10 +36,10 @@ should build the Vue app from the `frontend` folder.
 Recommended settings:
 
 ```text
-Framework preset: Vue / Vite
-Root directory: frontend
+Framework preset: None or Vue / Vite
+Root directory: leave empty
 Build command: npm run build
-Build output directory: dist
+Build output directory: frontend/dist
 Node.js version: 20 or 22
 ```
 
@@ -50,11 +50,12 @@ variable in Pages:
 NODE_VERSION=22
 ```
 
-If the root directory is left empty, use:
+Alternative settings:
 
 ```text
-Build command: cd frontend && npm ci && npm run build
-Build output directory: frontend/dist
+Root directory: frontend
+Build command: npm run build
+Build output directory: dist
 ```
 
 ## Frontend with backend API

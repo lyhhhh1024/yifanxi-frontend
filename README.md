@@ -8,9 +8,30 @@ an optional Java 21 Spring Boot backend for future dynamic product data.
 ## Project Shape
 
 ```text
-frontend/   Vue 3 + Vite website
-backend/    Java 21 + Spring Boot API
-tools/      Local asset-processing helpers
+package.json   Monorepo entry for Cloudflare/root builds
+frontend/      Vue 3 + Vite website
+backend/       Java 21 + Spring Boot API
+tools/         Local asset-processing helpers
+```
+
+The current production site can be deployed as a static frontend. The backend is
+kept in the repository for later dynamic APIs and does not need to be deployed
+for the first launch.
+
+## Root Commands
+
+These commands are intended for Cloudflare Pages or any CI system that builds
+from the repository root:
+
+```bash
+npm run build
+```
+
+This installs missing frontend dependencies and builds the Vue app under
+`frontend/`, then outputs:
+
+```text
+frontend/dist
 ```
 
 ## Frontend
