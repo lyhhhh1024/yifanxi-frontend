@@ -120,7 +120,7 @@ export const fallbackHomeData: HomeData = {
     },
   ],
   qualifications: [
-    "Foshan Nuoyuan Furniture Co., Ltd.",
+    "YIFANXI brand owner and operating company: Foshan Nuoyuan Furniture Co., Ltd.",
     "Unified social credit code: 91440605MAE87BUK2D",
     "YIFANXI trademark registered for furniture category",
     "Business scope includes furniture sales, manufacturing, design, installation, maintenance, import and export",

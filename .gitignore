@@ -22,6 +22,8 @@
 /backend/target/
 /.m2/
 /tmp/
+/logs/
+/rj_fqc/
 /tools/cloudflared.exe
 /tools/vcredist2010_x86.exe
 /tools/vcredist2010_x64.exe

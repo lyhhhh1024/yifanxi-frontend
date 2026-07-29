@@ -404,10 +404,10 @@ function closeMenu() {
       <div class="qualification-layout">
         <div class="qualification-panel">
           <p class="eyebrow">Company profile</p>
-          <h2>Registered furniture company with export and customization capability.</h2>
+          <h2>YIFANXI is owned and operated by Foshan Nuoyuan Furniture Co., Ltd.</h2>
         </div>
         <div class="qualification-copy">
-          <p class="eyebrow">Business proof</p>
+          <p class="eyebrow">Brand ownership proof</p>
           <ul>
             <li v-for="item in homeData.qualifications" :key="item">
               <span>{{ item }}</span>
@@ -418,7 +418,7 @@ function closeMenu() {
       <div class="legal-documents">
         <figure class="license-proof">
           <img :src="homeData.businessLicenseImage" alt="Business license" />
-          <figcaption>Business license</figcaption>
+          <figcaption>Business license of Foshan Nuoyuan Furniture Co., Ltd.</figcaption>
         </figure>
         <figure class="license-proof">
           <img :src="homeData.trademarkRegistrationImage" alt="Trademark registration certificate" />
