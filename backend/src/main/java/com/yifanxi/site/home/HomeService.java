@@ -29,9 +29,11 @@ public class HomeService {
                         "Kitty",
                         "WhatsApp Business",
                         "/assets/brand/whatsapp-kitty-qr.jpg",
+                        "https://wa.me/",
                         "ms5863494@gmail.com",
                         "@YFX5863494",
-                        "/assets/brand/instagram-qr-card.jpg"
+                        "/assets/brand/instagram-qr-card.jpg",
+                        "https://www.instagram.com/yfx5863494/"
                 )
         );
     }

@@ -439,14 +439,26 @@ function closeMenu() {
           details. Email: {{ homeData.contact.email }}.
         </p>
         <div class="social-cards">
-          <div class="whatsapp-card" aria-label="WhatsApp QR code">
+          <a
+            class="whatsapp-card"
+            :href="homeData.contact.whatsappUrl"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Open WhatsApp Business link"
+          >
             <img :src="homeData.contact.qrImage" alt="WhatsApp QR code" />
             <span>{{ homeData.contact.name }} - {{ homeData.contact.label }}</span>
-          </div>
-          <div class="whatsapp-card" aria-label="Instagram QR code">
+          </a>
+          <a
+            class="whatsapp-card"
+            :href="homeData.contact.instagramUrl"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Open Instagram profile"
+          >
             <img :src="homeData.contact.instagramQrImage" alt="Instagram QR code" />
             <span>Instagram - {{ homeData.contact.instagramHandle }}</span>
-          </div>
+          </a>
         </div>
       </div>
     </section>
