@@ -61,9 +61,7 @@ export interface Contact {
   name: string;
   label: string;
   qrImage: string;
-  whatsappUrl: string;
   email: string;
   instagramHandle: string;
   instagramQrImage: string;
-  instagramUrl: string;
 }

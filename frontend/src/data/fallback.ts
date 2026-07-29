@@ -131,10 +131,8 @@ export const fallbackHomeData: HomeData = {
     name: "Kitty",
     label: "WhatsApp Business",
     qrImage: "/assets/brand/whatsapp-kitty-qr.jpg",
-    whatsappUrl: "https://wa.me/",
     email: "ms5863494@gmail.com",
     instagramHandle: "@YFX5863494",
     instagramQrImage: "/assets/brand/instagram-qr-card.jpg",
-    instagramUrl: "https://www.instagram.com/yfx5863494/",
   },
 };
