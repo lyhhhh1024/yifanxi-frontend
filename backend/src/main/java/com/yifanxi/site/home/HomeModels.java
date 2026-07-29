@@ -77,9 +77,11 @@ public final class HomeModels {
             String name,
             String label,
             String qrImage,
+            String whatsappUrl,
             String email,
             String instagramHandle,
-            String instagramQrImage
+            String instagramQrImage,
+            String instagramUrl
     ) {
     }
 }

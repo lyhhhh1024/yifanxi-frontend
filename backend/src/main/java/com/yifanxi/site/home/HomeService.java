@@ -29,9 +29,11 @@ public class HomeService {
                         "Kitty",
                         "WhatsApp Business",
                         "/assets/brand/whatsapp-kitty-qr.jpg",
+                        "https://wa.me/8613602888775?text=Hello%2C%20I%20am%20interested%20in%20YIFANXI%20furniture.",
                         "ms5863494@gmail.com",
                         "@YFX5863494",
-                        "/assets/brand/instagram-qr-card.jpg"
+                        "/assets/brand/instagram-qr-card.jpg",
+                        "https://www.instagram.com/yfx5863494/"
                 )
         );
     }
