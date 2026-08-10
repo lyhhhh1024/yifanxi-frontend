@@ -130,7 +130,7 @@ public class HomeService {
 
     private List<ServiceItem> services() {
         return List.of(
-                new ServiceItem("Factory", "/assets/factory/factory-cutting-room.jpg"),
+                new ServiceItem("Factory", "/assets/factory/a143553ba837e2174fa123c19cee9cde.jpg"),
                 new ServiceItem("Design", "/assets/generated/design-studio-original.jpg"),
                 new ServiceItem("Sales", "/assets/generated/sales-consultation.png"),
                 new ServiceItem("After-sales", "/assets/generated/after-sales-inspection.png")
@@ -140,24 +140,33 @@ public class HomeService {
     private List<FactoryGalleryItem> factoryGallery() {
         return List.of(
                 new FactoryGalleryItem(
-                        "Material Cutting",
-                        "Pattern storage, fabric cutting, and upholstery preparation for custom production.",
-                        "/assets/factory/factory-cutting-room.jpg"
+                        "Upholstery Finishing",
+                        "Hand-finished upholstery work for tailored furniture components.",
+                        "/assets/factory/a143553ba837e2174fa123c19cee9cde.jpg"
                 ),
                 new FactoryGalleryItem(
-                        "Frame Assembly",
-                        "Wood frame, soft package, and structural assembly handled inside the factory.",
-                        "/assets/factory/factory-upholstery-assembly.jpg"
+                        "Woodworking",
+                        "Cutting and shaping structural wood components for custom orders.",
+                        "/assets/factory/d2460e988fff984e70391fe15691f013.jpg"
                 ),
                 new FactoryGalleryItem(
-                        "Sewing Detail",
-                        "Upholstery stitching and soft-cover finishing with hands-on quality control.",
-                        "/assets/factory/factory-sewing.jpg"
+                        "Pattern Making",
+                        "Templates and panels are prepared for precise furniture construction.",
+                        "/assets/factory/fdb8a55f2d308effb0c6aa09dd00cf60.jpg"
                 ),
                 new FactoryGalleryItem(
-                        "Packaging Check",
-                        "Export packaging preparation and final checks before delivery coordination.",
-                        "/assets/factory/factory-packaging.jpg"
+                        "Assembly Floor",
+                        "Furniture frames and upholstery components come together on the production floor.",
+                        "/assets/factory/6da3cb9599098fd7b7852aea23f5baef.jpg"
+                ),
+                new FactoryGalleryItem("Edge Stitching", "Detailed stitching and wrapping work for upholstered seating and tables.", "/assets/factory/b7915be25ec39b5eb265dad8fbf2e1f5.jpg"),
+                new FactoryGalleryItem("Foam Cutting", "Layered foam is cut and shaped for comfort, support, and long-term use.", "/assets/factory/89048ba944c9263d280fbc8d0a8784fe.jpg"),
+                new FactoryGalleryItem("Panel Preparation", "Workshop teams prepare panels and structural pieces for final assembly.", "/assets/factory/a0035e6d36849419fd443ac06e8f1ab4.jpg"),
+                new FactoryGalleryItem("Hardware Assembly", "Functional hardware and storage elements are fitted and checked by hand.", "/assets/factory/43ddb77df6421089750cd8516a291b7e.jpg"),
+                new FactoryGalleryItem("Pattern Cutting", "Fabric patterns are organized and cut for consistent, repeatable production.", "/assets/factory/40a003087b9d33ae57e0b0a4d632909f.jpg"),
+                new FactoryGalleryItem("Sewing Workshop", "Sewing specialists join quilted and upholstered details with precision.", "/assets/factory/22b20946272483814738c44c9571dd96.jpg"),
+                new FactoryGalleryItem("Export Preparation", "Finished components are prepared for safe packing and project delivery.", "/assets/factory/ca5db96f1bce5565987693a8043b45aa.jpg"),
+                new FactoryGalleryItem("Final Upholstery", "Final upholstery details are shaped, secured, and checked before dispatch.", "/assets/factory/7e6cf589ecd77240146463b0b4a9e725.jpg"
                 )
         );
     }

@@ -450,6 +450,26 @@ function closeMenu() {
           <p>{{ point }}</p>
         </article>
       </div>
+
+      <div v-if="selectedService.title === 'Factory'" class="factory-detail-gallery">
+        <div class="section-title">
+          <span>Factory archive</span>
+          <h2>Inside the production floor</h2>
+        </div>
+        <div class="factory-detail-grid">
+          <a
+            v-for="item in homeData.factoryGallery"
+            :key="item.title"
+            class="factory-detail-card"
+            :href="item.image"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <img :src="item.image" :alt="`${item.title} factory scene`" loading="lazy" />
+            <span>{{ item.title }}</span>
+          </a>
+        </div>
+      </div>
     </section>
 
     <section v-if="activePage === 'about'" class="factory-section">
@@ -464,7 +484,7 @@ function closeMenu() {
         </div>
         <div class="factory-gallery">
           <article
-            v-for="item in homeData.factoryGallery"
+            v-for="item in homeData.factoryGallery.slice(0, 4)"
             :key="item.title"
             class="factory-card"
           >
