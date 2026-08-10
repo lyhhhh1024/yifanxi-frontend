@@ -91,6 +91,33 @@ export const fallbackHomeData: HomeData = {
     },
   ],
   },
+  videoShowcase: {
+    eyebrow: "Video showcase",
+    title: "Short scenes for production, design, and finished spaces.",
+    copy:
+      "Use this page for factory process clips, showroom walkthroughs, product detail videos, and project presentation videos. Current cards are prepared as replaceable video slots.",
+    items: [
+      {
+        title: "Factory Process",
+        description: "Cutting, sewing, upholstery, and assembly scenes for custom furniture orders.",
+        poster: "/assets/factory/factory-cutting-room.jpg",
+        videoUrl: "/assets/videos/about-factory-showcase-web.mp4",
+        meta: "Factory / Production",
+      },
+      {
+        title: "Showroom Walkthrough",
+        description: "Light luxury and minimalist product displays for overseas project buyers.",
+        poster: "/assets/minimal/04225ea51388627e5e3288a8f61c80b3.png",
+        meta: "Products / Showroom",
+      },
+      {
+        title: "Material Details",
+        description: "Stone, upholstery, metal trim, and finish details used in whole-home matching.",
+        poster: "/assets/minimal/luxury-stone-round-table.jpg",
+        meta: "Materials / Details",
+      },
+    ],
+  },
   services: [
     { title: "Factory", image: "/assets/factory/factory-cutting-room.jpg" },
     { title: "Design", image: "/assets/generated/design-studio-original.jpg" },

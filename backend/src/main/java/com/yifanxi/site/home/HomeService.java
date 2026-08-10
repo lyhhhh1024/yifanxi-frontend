@@ -9,6 +9,8 @@ import com.yifanxi.site.home.HomeModels.ProductItem;
 import com.yifanxi.site.home.HomeModels.ProductSeries;
 import com.yifanxi.site.home.HomeModels.ProductShowcase;
 import com.yifanxi.site.home.HomeModels.ServiceItem;
+import com.yifanxi.site.home.HomeModels.VideoItem;
+import com.yifanxi.site.home.HomeModels.VideoShowcase;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,6 +22,7 @@ public class HomeService {
                 brand(),
                 hero(),
                 productShowcase(),
+                videoShowcase(),
                 services(),
                 factoryGallery(),
                 qualifications(),
@@ -92,6 +95,37 @@ public class HomeService {
                         )
                 )
         ));
+    }
+
+    private VideoShowcase videoShowcase() {
+        return new VideoShowcase(
+                "Video showcase",
+                "Short scenes for production, design, and finished spaces.",
+                "Use this area for factory process clips, showroom walkthroughs, product detail videos, and project presentation videos. Current cards are prepared as replaceable video slots.",
+                List.of(
+                        new VideoItem(
+                                "Factory Process",
+                                "Cutting, sewing, upholstery, and assembly scenes for custom furniture orders.",
+                                "/assets/factory/factory-cutting-room.jpg",
+                                "/assets/videos/about-factory-showcase-web.mp4",
+                                "Factory / Production"
+                        ),
+                        new VideoItem(
+                                "Showroom Walkthrough",
+                                "Light luxury and minimalist product displays for overseas project buyers.",
+                                "/assets/minimal/04225ea51388627e5e3288a8f61c80b3.png",
+                                null,
+                                "Products / Showroom"
+                        ),
+                        new VideoItem(
+                                "Material Details",
+                                "Stone, upholstery, metal trim, and finish details used in whole-home matching.",
+                                "/assets/minimal/luxury-stone-round-table.jpg",
+                                null,
+                                "Materials / Details"
+                        )
+                )
+        );
     }
 
     private List<ServiceItem> services() {

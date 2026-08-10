@@ -2,6 +2,7 @@ export interface HomeData {
   brand: Brand;
   hero: Hero;
   productShowcase: ProductShowcase;
+  videoShowcase: VideoShowcase;
   services: ServiceItem[];
   factoryGallery: FactoryGalleryItem[];
   qualifications: string[];
@@ -44,6 +45,21 @@ export interface ProductItem {
   name: string;
   description: string;
   images: string[];
+}
+
+export interface VideoShowcase {
+  eyebrow: string;
+  title: string;
+  copy: string;
+  items: VideoItem[];
+}
+
+export interface VideoItem {
+  title: string;
+  description: string;
+  poster: string;
+  videoUrl?: string;
+  meta: string;
 }
 
 export interface ServiceItem {

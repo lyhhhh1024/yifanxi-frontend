@@ -10,6 +10,7 @@ public final class HomeModels {
             Brand brand,
             Hero hero,
             ProductShowcase productShowcase,
+            VideoShowcase videoShowcase,
             List<ServiceItem> services,
             List<FactoryGalleryItem> factoryGallery,
             List<String> qualifications,
@@ -57,6 +58,23 @@ public final class HomeModels {
             String name,
             String description,
             List<String> images
+    ) {
+    }
+
+    public record VideoShowcase(
+            String eyebrow,
+            String title,
+            String copy,
+            List<VideoItem> items
+    ) {
+    }
+
+    public record VideoItem(
+            String title,
+            String description,
+            String poster,
+            String videoUrl,
+            String meta
     ) {
     }
 

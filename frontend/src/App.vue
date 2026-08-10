@@ -1,16 +1,30 @@
 <script setup lang="ts">
-import { computed, nextTick, onMounted, ref } from "vue";
+import { computed, nextTick, onMounted, onUnmounted, ref } from "vue";
 import { fallbackHomeData } from "./data/fallback";
 import type { HomeData, ProductSeries } from "./types";
 
 type PageKey = "home" | "products" | "about" | "contact" | "serviceDetail";
 
+const pageByHash: Record<string, PageKey> = {
+  "#top": "home",
+  "#products": "products",
+  "#about": "about",
+  "#about-video": "about",
+  "#contact": "contact",
+};
+
+function pageFromLocation(): PageKey {
+  return pageByHash[window.location.hash.toLowerCase()] ?? "home";
+}
+
 const homeData = ref<HomeData>(fallbackHomeData);
-const activePage = ref<PageKey>("home");
+const activePage = ref<PageKey>(pageFromLocation());
 const selectedSeriesKey = ref<string | null>(null);
 const selectedServiceTitle = ref<string | null>(null);
 const selectedSeriesSection = ref<HTMLElement | null>(null);
+const selectedVideoIndex = ref(0);
 const isMenuOpen = ref(false);
+const videoErrors = ref<Record<string, boolean>>({});
 const apiBaseUrl = import.meta.env.VITE_API_BASE_URL?.replace(/\/$/, "") ?? "";
 
 const primaryPages: { key: PageKey; label: string }[] = [
@@ -22,7 +36,7 @@ const primaryPages: { key: PageKey; label: string }[] = [
 const drawerPages: { key: PageKey; label: string; summary: string }[] = [
   { key: "home", label: "Home", summary: "Brand entrance and whole-home positioning" },
   { key: "products", label: "Product Showcase", summary: "Light luxury and minimal product series" },
-  { key: "about", label: "About Us", summary: "Origin, factory, service, and qualifications" },
+  { key: "about", label: "About Us", summary: "Origin, videos, factory, service, and qualifications" },
   { key: "contact", label: "Contact Us", summary: "WhatsApp, Instagram, and email inquiry" },
 ];
 
@@ -93,8 +107,28 @@ function setPage(page: PageKey) {
   isMenuOpen.value = false;
   if (page !== "serviceDetail") {
     selectedServiceTitle.value = null;
+    const nextHash = page === "home" ? "#top" : `#${page}`;
+    if (window.location.hash !== nextHash) {
+      window.history.pushState(null, "", nextHash);
+    }
   }
   window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+async function scrollToLocationTarget() {
+  await nextTick();
+  if (window.location.hash.toLowerCase() === "#about-video") {
+    document.getElementById("about-video")?.scrollIntoView({ block: "start" });
+    return;
+  }
+  window.scrollTo({ top: 0, behavior: "auto" });
+}
+
+function syncPageFromLocation() {
+  activePage.value = pageFromLocation();
+  selectedServiceTitle.value = null;
+  isMenuOpen.value = false;
+  void scrollToLocationTarget();
 }
 
 function openService(title: string) {
@@ -103,6 +137,10 @@ function openService(title: string) {
 }
 
 onMounted(async () => {
+  window.addEventListener("popstate", syncPageFromLocation);
+  window.addEventListener("hashchange", syncPageFromLocation);
+  await scrollToLocationTarget();
+
   const shouldLoadBackendData = import.meta.env.DEV || apiBaseUrl.length > 0;
 
   if (!shouldLoadBackendData) {
@@ -115,11 +153,29 @@ onMounted(async () => {
       return;
     }
     const data = (await response.json()) as HomeData;
-    homeData.value = data;
+    homeData.value = {
+      ...fallbackHomeData,
+      ...data,
+      videoShowcase: data.videoShowcase ?? fallbackHomeData.videoShowcase,
+    };
   } catch {
     homeData.value = fallbackHomeData;
   }
 });
+
+const selectedVideo = computed(() =>
+  homeData.value.videoShowcase.items[selectedVideoIndex.value] ??
+  homeData.value.videoShowcase.items[0],
+);
+
+onUnmounted(() => {
+  window.removeEventListener("popstate", syncPageFromLocation);
+  window.removeEventListener("hashchange", syncPageFromLocation);
+});
+
+function markVideoError(title: string) {
+  videoErrors.value = { ...videoErrors.value, [title]: true };
+}
 
 async function selectSeries(key: string) {
   selectedSeriesKey.value = key;
@@ -219,38 +275,64 @@ function closeMenu() {
       </div>
     </section>
 
-    <section v-if="activePage === 'home'" class="statement-section">
-      <div>
-        <p class="eyebrow">One-stop service</p>
-        <h2>Factory, design, sales, and after-sales.</h2>
-        <p class="service-copy">
-          Integrated support from production and project matching to quotation,
-          delivery coordination, and follow-up service.
-        </p>
-      </div>
-      <div class="service-flow">
-        <button
-          v-for="service in homeData.services"
-          :key="service.title"
-          type="button"
-          @click="openService(service.title)"
-        >
-          <img :src="service.image" :alt="`${service.title} service scene`" />
-          <div>
-            <span>YIFANXI</span>
-            <strong>{{ service.title }}</strong>
-          </div>
-        </button>
-      </div>
-    </section>
-
-    <section v-if="activePage === 'about'" class="origin-section page-view">
+    <section v-if="activePage === 'about'" class="origin-section">
       <div class="section-title">
         <span>Origin</span>
         <h2>{{ homeData.brand.originTitle }}</h2>
       </div>
       <div class="origin-copy">
         <p v-for="copy in homeData.brand.originCopy" :key="copy">{{ copy }}</p>
+      </div>
+    </section>
+
+    <section v-if="activePage === 'about'" id="about-video" class="video-section">
+      <div class="section-title">
+        <span>02</span>
+        <h2>Video Showcase</h2>
+      </div>
+      <div class="video-intro">
+        <p class="eyebrow">{{ homeData.videoShowcase.eyebrow }}</p>
+        <h3>{{ homeData.videoShowcase.title }}</h3>
+        <p>{{ homeData.videoShowcase.copy }}</p>
+      </div>
+      <div v-if="selectedVideo" class="video-stage">
+        <video
+          v-if="selectedVideo.videoUrl && !videoErrors[selectedVideo.title]"
+          :key="selectedVideo.videoUrl"
+          :src="selectedVideo.videoUrl"
+          :poster="selectedVideo.poster"
+          autoplay
+          muted
+          loop
+          controls
+          playsinline
+          preload="auto"
+          @error="markVideoError(selectedVideo.title)"
+        ></video>
+        <div v-else class="video-stage-placeholder">
+          <img :src="selectedVideo.poster" :alt="`${selectedVideo.title} video poster`" />
+          <span>{{ selectedVideo.videoUrl ? "Video unavailable" : "Coming soon" }}</span>
+        </div>
+        <div class="video-stage-copy">
+          <span>{{ selectedVideo.meta }}</span>
+          <h4>{{ selectedVideo.title }}</h4>
+          <p>{{ selectedVideo.description }}</p>
+        </div>
+      </div>
+      <div class="video-selector" role="tablist" aria-label="Choose a showcase video">
+        <button
+          v-for="(item, index) in homeData.videoShowcase.items"
+          :key="item.title"
+          type="button"
+          role="tab"
+          :aria-selected="selectedVideoIndex === index"
+          :class="{ active: selectedVideoIndex === index }"
+          @click="selectedVideoIndex = index"
+        >
+          <span>{{ item.meta }}</span>
+          <strong>{{ item.title }}</strong>
+          <small>{{ item.videoUrl ? "Play video" : "Coming soon" }}</small>
+        </button>
       </div>
     </section>
 
@@ -372,7 +454,7 @@ function closeMenu() {
 
     <section v-if="activePage === 'about'" class="factory-section">
       <div class="section-title">
-        <span>02</span>
+        <span>03</span>
         <h2>Factory Capability</h2>
       </div>
       <div class="factory-layout">
@@ -398,7 +480,7 @@ function closeMenu() {
 
     <section v-if="activePage === 'about'" class="qualification-section">
       <div class="section-title">
-        <span>03</span>
+        <span>04</span>
         <h2>Qualifications</h2>
       </div>
       <div class="qualification-layout">
