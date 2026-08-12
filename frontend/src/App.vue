@@ -20,6 +20,7 @@ function pageFromLocation(): PageKey {
 const homeData = ref<HomeData>(fallbackHomeData);
 const activePage = ref<PageKey>(pageFromLocation());
 const selectedSeriesKey = ref<string | null>(null);
+const selectedProductCategory = ref<string | null>(null);
 const selectedServiceTitle = ref<string | null>(null);
 const selectedSeriesSection = ref<HTMLElement | null>(null);
 const selectedVideoIndex = ref(0);
@@ -163,6 +164,18 @@ onMounted(async () => {
   }
 });
 
+const selectedCategoryProducts = computed(() => {
+  if (!selectedSeries.value) return [];
+  const category = selectedProductCategory.value ?? selectedSeries.value.products[0]?.category;
+  return selectedSeries.value.products.filter((product) => product.category === category);
+});
+
+const selectedCategories = computed(() =>
+  selectedSeries.value
+    ? [...new Set(selectedSeries.value.products.map((product) => product.category))]
+    : [],
+);
+
 const selectedVideo = computed(() =>
   homeData.value.videoShowcase.items[selectedVideoIndex.value] ??
   homeData.value.videoShowcase.items[0],
@@ -179,6 +192,7 @@ function markVideoError(title: string) {
 
 async function selectSeries(key: string) {
   selectedSeriesKey.value = key;
+  selectedProductCategory.value = null;
   activePage.value = "products";
   isMenuOpen.value = false;
   await nextTick();
@@ -371,30 +385,45 @@ function closeMenu() {
           <p>{{ selectedSeries.summary }}</p>
         </div>
 
-        <div class="category-grid">
-          <article
-            v-for="product in selectedSeries.products"
-            :key="product.name"
-            class="category-card"
-          >
-            <div
-              class="category-media"
-              :class="{ split: product.images.length > 1 }"
+        <div class="product-browser">
+          <aside class="product-filters" aria-label="Product categories">
+            <span class="eyebrow">Categories</span>
+            <button
+              v-for="category in selectedCategories"
+              :key="category"
+              type="button"
+              :class="{ active: (selectedProductCategory ?? selectedCategories[0]) === category }"
+              @click="selectedProductCategory = category"
             >
-              <img
-                v-for="image in product.images.slice(0, 2)"
-                :key="image"
-                :src="image"
-                :alt="product.name"
-              />
+              {{ category }}
+            </button>
+          </aside>
+
+          <div class="product-results">
+            <div class="category-grid">
+              <article
+                v-for="(product, productIndex) in selectedCategoryProducts"
+                :key="`${product.category}-${product.name}-${productIndex}`"
+                class="category-card"
+              >
+                <div class="category-media" :class="{ split: product.images.length > 1 }">
+                  <img
+                    v-for="image in product.images.slice(0, 2)"
+                    :key="image"
+                    :src="image"
+                    :alt="product.name"
+                  />
+                </div>
+                <div class="category-copy">
+                  <span>{{ product.category }}</span>
+                  <h4>{{ product.name }}</h4>
+                  <p>{{ product.description }}</p>
+                </div>
+              </article>
             </div>
-            <div class="category-copy">
-              <span>{{ selectedSeries.name }}</span>
-              <h4>{{ product.name }}</h4>
-              <p>{{ product.description }}</p>
-            </div>
-          </article>
+          </div>
         </div>
+
       </div>
 
       <div v-else class="empty-showcase">

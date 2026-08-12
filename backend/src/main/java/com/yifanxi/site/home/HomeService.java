@@ -75,10 +75,14 @@ public class HomeService {
                         "Warm upholstery, refined metal lines, illuminated details, luxury stone, and statement bedroom pieces.",
                         "/assets/minimal/04225ea51388627e5e3288a8f61c80b3.png",
                         List.of(
-                                new ProductItem("Living Room Solutions", "Complete living room sets for villa and hotel lounge spaces.", List.of("/assets/minimal/04225ea51388627e5e3288a8f61c80b3.png", "/assets/minimal/037a1cca5acf71643770bda3602bc9a4.png")),
-                                new ProductItem("Modular Sofas", "Formal and lounge sofa systems with leather, fabric, and metal detail options.", List.of("/assets/minimal/accent-chair.png")),
-                                new ProductItem("Luxury Stone Tables", "Central tables and side tables with stone tops and refined metal bases.", List.of("/assets/minimal/luxury-stone-round-table.jpg")),
-                                new ProductItem("Upholstered Beds", "Wide-screen beds and soft bedroom systems for private residences and suites.", List.of("/assets/minimal/bed.png"))
+                                new ProductItem("Sofas", "Sofa 01", "Light luxury sofa system with tailored upholstery and refined details.", List.of("/assets/minimal/04225ea51388627e5e3288a8f61c80b3.png")),
+                                new ProductItem("Sofas", "Sofa 02", "Generous modular seating for villa and hotel lounge spaces.", List.of("/assets/minimal/037a1cca5acf71643770bda3602bc9a4.png")),
+                                new ProductItem("Chairs", "Lounge Chair 01", "Accent seating with soft curves and premium finish options.", List.of("/assets/minimal/accent-chair.png")),
+                                new ProductItem("Chairs", "Lounge Chair 02", "A compact occasional chair for coordinated interior layouts.", List.of("/assets/minimal/accent-chair.png")),
+                                new ProductItem("Beds", "Upholstered Bed 01", "Wide-screen upholstered bed for private residences and suites.", List.of("/assets/minimal/bed.png")),
+                                new ProductItem("Beds", "Upholstered Bed 02", "Soft bedroom system with a calm light luxury profile.", List.of("/assets/minimal/bed.png")),
+                                new ProductItem("Cabinets", "Cabinet 01", "Statement storage piece with coordinated materials for complete interiors.", List.of("/assets/minimal/037a1cca5acf71643770bda3602bc9a4.png")),
+                                new ProductItem("Cabinets", "Cabinet 02", "Occasional furniture selected to complete a whole-home scheme.", List.of("/assets/minimal/04225ea51388627e5e3288a8f61c80b3.png"))
                         )
                 ),
                 new ProductSeries(
@@ -87,11 +91,11 @@ public class HomeService {
                         "Clean silhouettes, calm colors, soft upholstery, stone finishes, and modern whole-home matching.",
                         "/assets/minimal/dining-table.png",
                         List.of(
-                                new ProductItem("Dining Room Furniture", "Minimal dining tables and chairs for calm residential and office interiors.", List.of("/assets/minimal/dining-table.png", "/assets/minimal/stone-table.png")),
-                                new ProductItem("Bedroom Furniture", "Low-profile upholstered beds and quiet modern sleeping spaces.", List.of("/assets/minimal/bed.png")),
-                                new ProductItem("Stone Tables", "Lightweight stone visual language for tables and whole-home matching.", List.of("/assets/minimal/stone-table.png")),
-                                new ProductItem("Lounge Chairs", "Accent chairs and occasional seating for flexible interior layouts.", List.of("/assets/minimal/accent-chair.png")),
-                                new ProductItem("Whole-home Matching", "Coordinated furniture language for villas, offices, and hotel projects.", List.of("/assets/minimal/037a1cca5acf71643770bda3602bc9a4.png", "/assets/minimal/04225ea51388627e5e3288a8f61c80b3.png"))
+                                new ProductItem("Dining", "Dining Room Furniture", "Minimal dining tables and chairs for calm interiors.", List.of("/assets/minimal/dining-table.png", "/assets/minimal/stone-table.png")),
+                                new ProductItem("Bedroom", "Bedroom Furniture", "Low-profile upholstered beds and quiet modern sleeping spaces.", List.of("/assets/minimal/bed.png")),
+                                new ProductItem("Tables", "Stone Tables", "Lightweight stone visual language for tables and whole-home matching.", List.of("/assets/minimal/stone-table.png")),
+                                new ProductItem("Chairs", "Lounge Chairs", "Accent chairs and occasional seating for flexible layouts.", List.of("/assets/minimal/accent-chair.png")),
+                                new ProductItem("Whole-home", "Whole-home Matching", "Coordinated furniture language for villas, offices, and hotel projects.", List.of("/assets/minimal/037a1cca5acf71643770bda3602bc9a4.png", "/assets/minimal/04225ea51388627e5e3288a8f61c80b3.png"))
                         )
                 )
         ));

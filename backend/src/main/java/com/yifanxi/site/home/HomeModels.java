@@ -55,6 +55,7 @@ public final class HomeModels {
     }
 
     public record ProductItem(
+            String category,
             String name,
             String description,
             List<String> images

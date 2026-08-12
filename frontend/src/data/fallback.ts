@@ -31,24 +31,28 @@ export const fallbackHomeData: HomeData = {
       coverImage: "/assets/minimal/04225ea51388627e5e3288a8f61c80b3.png",
       products: [
         {
-          name: "Living Room Solutions",
-          description: "Complete living room sets for villa and hotel lounge spaces.",
+          category: "Sofas",
+          name: "Sofas",
+          description: "Light luxury sofa systems with tailored upholstery, generous proportions, and refined details.",
           images: ["/assets/minimal/04225ea51388627e5e3288a8f61c80b3.png", "/assets/minimal/037a1cca5acf71643770bda3602bc9a4.png"],
         },
         {
-          name: "Modular Sofas",
-          description: "Formal and lounge sofa systems with leather, fabric, and metal detail options.",
+          category: "Chairs",
+          name: "Chairs",
+          description: "Accent and lounge chairs with soft curves, considered proportions, and premium finish options.",
           images: ["/assets/minimal/accent-chair.png"],
         },
         {
-          name: "Luxury Stone Tables",
-          description: "Central tables and side tables with stone tops and refined metal bases.",
-          images: ["/assets/minimal/luxury-stone-round-table.jpg"],
+          category: "Beds",
+          name: "Beds",
+          description: "Upholstered beds and wide-screen bedroom pieces designed for private residences and suites.",
+          images: ["/assets/minimal/bed.png"],
         },
         {
-          name: "Upholstered Beds",
-          description: "Wide-screen beds and soft bedroom systems for private residences and suites.",
-          images: ["/assets/minimal/bed.png"],
+          category: "Cabinets",
+          name: "Cabinets",
+          description: "Statement storage and occasional furniture with coordinated materials for complete interiors.",
+          images: ["/assets/minimal/037a1cca5acf71643770bda3602bc9a4.png"],
         },
       ],
     },
@@ -60,26 +64,31 @@ export const fallbackHomeData: HomeData = {
       coverImage: "/assets/minimal/dining-table.png",
       products: [
         {
+          category: "Dining",
           name: "Dining Room Furniture",
           description: "Minimal dining tables and chairs for calm residential and office interiors.",
           images: ["/assets/minimal/dining-table.png", "/assets/minimal/stone-table.png"],
         },
         {
+          category: "Bedroom",
           name: "Bedroom Furniture",
           description: "Low-profile upholstered beds and quiet modern sleeping spaces.",
           images: ["/assets/minimal/bed.png"],
         },
         {
+          category: "Tables",
           name: "Stone Tables",
           description: "Lightweight stone visual language for tables and whole-home matching.",
           images: ["/assets/minimal/stone-table.png"],
         },
         {
+          category: "Chairs",
           name: "Lounge Chairs",
           description: "Accent chairs and occasional seating for flexible interior layouts.",
           images: ["/assets/minimal/accent-chair.png"],
         },
         {
+          category: "Whole-home",
           name: "Whole-home Matching",
           description: "Coordinated furniture language for villas, offices, and hotel projects.",
           images: [

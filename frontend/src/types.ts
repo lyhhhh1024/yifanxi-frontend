@@ -42,6 +42,7 @@ export interface ProductSeries {
 }
 
 export interface ProductItem {
+  category: string;
   name: string;
   description: string;
   images: string[];
