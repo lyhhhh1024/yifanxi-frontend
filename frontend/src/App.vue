@@ -172,7 +172,11 @@ const selectedCategoryProducts = computed(() => {
 
 const selectedCategories = computed(() =>
   selectedSeries.value
-    ? [...new Set(selectedSeries.value.products.map((product) => product.category))]
+    ? [...new Set(selectedSeries.value.products.map((product) => product.category))].sort((a, b) => {
+        if (selectedSeries.value?.key !== "light-luxury") return 0;
+        const order = ["Sofas", "Upholstered Beds", "Dining & Coffee Tables", "Chairs"];
+        return order.indexOf(a) - order.indexOf(b);
+      })
     : [],
 );
 
@@ -406,9 +410,9 @@ function closeMenu() {
                 :key="`${product.category}-${product.name}-${productIndex}`"
                 class="category-card"
               >
-                <div class="category-media" :class="{ split: product.images.length > 1 }">
+                <div class="category-media">
                   <img
-                    v-for="image in product.images.slice(0, 2)"
+                    v-for="image in product.images"
                     :key="image"
                     :src="image"
                     :alt="product.name"
